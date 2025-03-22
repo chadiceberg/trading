@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://hsi3um5bitlf"]
+
+[ext_resource type="Script" uid="uid://cma2eqv8k5vi7" path="res://city.gd" id="1_bih7l"]
+
+[node name="City" type="Node2D"]
+script = ExtResource("1_bih7l")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="ProductionTimer" type="Timer" parent="."]
+
+[node name="DemandTimer" type="Timer" parent="."]
+
+[node name="GUI_Panel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="timeout" from="ProductionTimer" to="." method="_on_production_timer_timeout"]
+[connection signal="timeout" from="DemandTimer" to="." method="_on_demand_timer_timeout"]

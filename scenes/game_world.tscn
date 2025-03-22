@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://biqp5y1mo2up5"]
+
+[node name="GameWorld" type="Node2D"]
+
+[node name="TradeRoutes" type="Node2D" parent="."]
+
+[node name="Cities" type="Node2D" parent="."]
+
+[node name="Guilds" type="Node" parent="."]
+
+[node name="Caravans" type="Node2D" parent="."]
