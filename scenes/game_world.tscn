@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://biqp5y1mo2up5"]
+[gd_scene load_steps=2 format=3 uid="uid://biqp5y1mo2up5"]
+
+[ext_resource type="PackedScene" uid="uid://do1jlifoiv65o" path="res://scenes/world_map.tscn" id="1_0biqy"]
 
 [node name="GameWorld" type="Node2D"]
 
@@ -9,3 +11,5 @@
 [node name="Guilds" type="Node" parent="."]
 
 [node name="Caravans" type="Node2D" parent="."]
+
+[node name="WorldMap" parent="." instance=ExtResource("1_0biqy")]

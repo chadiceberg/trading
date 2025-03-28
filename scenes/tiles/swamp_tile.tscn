@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://btur4k3k7l70t"]
+
+[ext_resource type="PackedScene" uid="uid://o18ouehtmi7n" path="res://scenes/tile.tscn" id="1_to221"]
+[ext_resource type="Texture2D" uid="uid://cioma8vw4avph" path="res://resources/tiles/swamp_tile.PNG" id="2_a3mcj"]
+
+[node name="SwampTile" instance=ExtResource("1_to221")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_a3mcj")

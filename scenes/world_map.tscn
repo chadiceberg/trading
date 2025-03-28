@@ -1,0 +1,267 @@
+[gd_scene load_steps=10 format=3 uid="uid://do1jlifoiv65o"]
+
+[ext_resource type="PackedScene" uid="uid://1446tylai4ue" path="res://scenes/tiles/fertile_tile.tscn" id="1_vlder"]
+[ext_resource type="PackedScene" uid="uid://bk4h0y4gkubbr" path="res://scenes/tiles/forest_tile.tscn" id="2_1ybv2"]
+[ext_resource type="PackedScene" uid="uid://7lhrke1ll4hk" path="res://scenes/tiles/grain_tile.tscn" id="3_n85vh"]
+[ext_resource type="PackedScene" uid="uid://mgsw3k3httud" path="res://scenes/tiles/mine_tile.tscn" id="4_kedyp"]
+[ext_resource type="PackedScene" uid="uid://bger47myvrj7d" path="res://scenes/tiles/mountain_tile.tscn" id="5_k2x6u"]
+[ext_resource type="PackedScene" uid="uid://44icni2bo3dt" path="res://scenes/tiles/rural_building_tile.tscn" id="6_ux7wi"]
+[ext_resource type="PackedScene" uid="uid://btur4k3k7l70t" path="res://scenes/tiles/swamp_tile.tscn" id="7_2knnn"]
+[ext_resource type="PackedScene" uid="uid://cfresv0ttrhry" path="res://scenes/tiles/water_tile.tscn" id="8_07spy"]
+[ext_resource type="PackedScene" uid="uid://o18ouehtmi7n" path="res://scenes/tile.tscn" id="9_2sw6j"]
+
+[node name="WorldMap" type="Node2D"]
+
+[node name="FertileTile" parent="." instance=ExtResource("1_vlder")]
+
+[node name="ForestTile" parent="." instance=ExtResource("2_1ybv2")]
+position = Vector2(16, 0)
+
+[node name="GrainTile" parent="." instance=ExtResource("3_n85vh")]
+position = Vector2(32, 0)
+
+[node name="MineTile" parent="." instance=ExtResource("4_kedyp")]
+position = Vector2(48, 0)
+
+[node name="MountainTile" parent="." instance=ExtResource("5_k2x6u")]
+position = Vector2(64, 0)
+
+[node name="RuralBuildingTile" parent="." instance=ExtResource("6_ux7wi")]
+position = Vector2(80, 0)
+
+[node name="SwampTile" parent="." instance=ExtResource("7_2knnn")]
+position = Vector2(96, 0)
+
+[node name="WaterTile" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(112, 0)
+
+[node name="Tile" parent="." instance=ExtResource("9_2sw6j")]
+position = Vector2(128, 0)
+
+[node name="FertileTile2" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(0, 48)
+
+[node name="FertileTile3" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(0, 64)
+
+[node name="FertileTile4" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(0, 80)
+
+[node name="WaterTile2" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 48)
+
+[node name="WaterTile3" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 64)
+
+[node name="WaterTile4" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 80)
+
+[node name="WaterTile5" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 96)
+
+[node name="WaterTile6" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 112)
+
+[node name="WaterTile7" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 128)
+
+[node name="WaterTile8" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 144)
+
+[node name="WaterTile9" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 160)
+
+[node name="WaterTile10" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(32, 48)
+
+[node name="WaterTile11" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(32, 64)
+
+[node name="WaterTile12" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(32, 80)
+
+[node name="WaterTile13" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(32, 96)
+
+[node name="WaterTile14" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(32, 112)
+
+[node name="WaterTile15" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(32, 128)
+
+[node name="WaterTile16" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(32, 144)
+
+[node name="WaterTile17" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(32, 160)
+
+[node name="WaterTile18" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(48, 48)
+
+[node name="WaterTile19" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(48, 64)
+
+[node name="WaterTile20" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(48, 80)
+
+[node name="WaterTile21" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(48, 96)
+
+[node name="WaterTile22" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(48, 112)
+
+[node name="WaterTile23" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(48, 128)
+
+[node name="WaterTile24" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(48, 144)
+
+[node name="WaterTile25" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(48, 160)
+
+[node name="WaterTile26" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 176)
+
+[node name="WaterTile27" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(32, 176)
+
+[node name="WaterTile28" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(48, 176)
+
+[node name="WaterTile29" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 192)
+
+[node name="WaterTile30" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(32, 192)
+
+[node name="WaterTile31" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(48, 192)
+
+[node name="FertileTile5" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(0, 96)
+
+[node name="FertileTile6" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(0, 112)
+
+[node name="FertileTile7" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(0, 128)
+
+[node name="FertileTile8" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(0, 144)
+
+[node name="FertileTile9" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(0, 160)
+
+[node name="FertileTile10" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(0, 176)
+
+[node name="FertileTile11" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(0, 192)
+
+[node name="WaterTile32" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(0, 208)
+
+[node name="WaterTile33" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 208)
+
+[node name="WaterTile34" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(0, 224)
+
+[node name="WaterTile35" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(0, 240)
+
+[node name="WaterTile36" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 224)
+
+[node name="WaterTile37" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(16, 240)
+
+[node name="WaterTile38" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(32, 208)
+
+[node name="WaterTile39" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(32, 224)
+
+[node name="WaterTile40" parent="." instance=ExtResource("8_07spy")]
+position = Vector2(48, 208)
+
+[node name="FertileTile12" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(16, 256)
+
+[node name="FertileTile13" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(0, 256)
+
+[node name="FertileTile14" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(32, 240)
+
+[node name="FertileTile15" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(48, 224)
+
+[node name="FertileTile16" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(64, 208)
+
+[node name="FertileTile17" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(64, 192)
+
+[node name="FertileTile18" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(64, 176)
+
+[node name="FertileTile19" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(64, 160)
+
+[node name="FertileTile20" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(64, 144)
+
+[node name="FertileTile21" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(64, 128)
+
+[node name="FertileTile22" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(64, 112)
+
+[node name="FertileTile23" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(64, 96)
+
+[node name="FertileTile24" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(64, 80)
+
+[node name="FertileTile25" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(64, 64)
+
+[node name="FertileTile26" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(64, 48)
+
+[node name="FertileTile27" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(64, 32)
+
+[node name="FertileTile28" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(80, 32)
+
+[node name="FertileTile29" parent="." instance=ExtResource("1_vlder")]
+position = Vector2(0, 32)
+
+[node name="Tile2" parent="." instance=ExtResource("9_2sw6j")]
+position = Vector2(0, 16)
+
+[node name="Tile3" parent="." instance=ExtResource("9_2sw6j")]
+position = Vector2(16, 16)
+
+[node name="Tile4" parent="." instance=ExtResource("9_2sw6j")]
+position = Vector2(32, 16)
+
+[node name="Tile5" parent="." instance=ExtResource("9_2sw6j")]
+position = Vector2(48, 16)
+
+[node name="Tile6" parent="." instance=ExtResource("9_2sw6j")]
+position = Vector2(64, 16)
+
+[node name="Tile7" parent="." instance=ExtResource("9_2sw6j")]
+position = Vector2(80, 16)
+
+[node name="Tile8" parent="." instance=ExtResource("9_2sw6j")]
+position = Vector2(96, 16)
+
+[node name="Tile9" parent="." instance=ExtResource("9_2sw6j")]
+position = Vector2(112, 16)
+
+[node name="Tile10" parent="." instance=ExtResource("9_2sw6j")]
+position = Vector2(128, 16)
