@@ -2,6 +2,11 @@ extends Node2D
 
 class_name Tile
 
+signal tile_clicked()
+
+var controlled_by: Node = null
+var base_production := {"grain": 1}
+
 @export var movement_cost: float = 1.0
 @export var resources: Dictionary = {}
 @export var is_passable: bool = true
@@ -20,3 +25,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 		
 func on_click():
 	print(type, " clicked at ", position)
+	
+func get_controlled_production() -> Dictionary:
+	return base_production.duplicate() if controlled_by else {}
+	

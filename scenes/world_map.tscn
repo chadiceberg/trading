@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://do1jlifoiv65o"]
+[gd_scene load_steps=14 format=3 uid="uid://do1jlifoiv65o"]
 
 [ext_resource type="Script" uid="uid://deonlqi4r5l7q" path="res://scenes/world_map.gd" id="1_6a477"]
 [ext_resource type="PackedScene" uid="uid://1446tylai4ue" path="res://scenes/tiles/fertile_tile.tscn" id="1_vlder"]
 [ext_resource type="PackedScene" uid="uid://bk4h0y4gkubbr" path="res://scenes/tiles/forest_tile.tscn" id="2_1ybv2"]
+[ext_resource type="PackedScene" uid="uid://hsi3um5bitlf" path="res://scenes/city.tscn" id="2_jc8yp"]
 [ext_resource type="PackedScene" uid="uid://7lhrke1ll4hk" path="res://scenes/tiles/grain_tile.tscn" id="3_n85vh"]
+[ext_resource type="Script" uid="uid://dgwu04vxebx5s" path="res://scripts/tile.gd" id="4_c7uu0"]
 [ext_resource type="PackedScene" uid="uid://mgsw3k3httud" path="res://scenes/tiles/mine_tile.tscn" id="4_kedyp"]
 [ext_resource type="PackedScene" uid="uid://bger47myvrj7d" path="res://scenes/tiles/mountain_tile.tscn" id="5_k2x6u"]
 [ext_resource type="PackedScene" uid="uid://44icni2bo3dt" path="res://scenes/tiles/rural_building_tile.tscn" id="6_ux7wi"]
@@ -16,6 +18,8 @@
 script = ExtResource("1_6a477")
 
 [node name="FertileTile" parent="." instance=ExtResource("1_vlder")]
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="ForestTile" parent="." instance=ExtResource("2_1ybv2")]
 position = Vector2(16, 0)
@@ -43,12 +47,18 @@ position = Vector2(128, 0)
 
 [node name="FertileTile2" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(0, 48)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile3" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(0, 64)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile4" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(0, 80)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="WaterTile2" parent="." instance=ExtResource("8_07spy")]
 position = Vector2(16, 48)
@@ -142,24 +152,38 @@ position = Vector2(48, 192)
 
 [node name="FertileTile5" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(0, 96)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile6" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(0, 112)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile7" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(0, 128)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile8" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(0, 144)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile9" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(0, 160)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile10" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(0, 176)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile11" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(0, 192)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="WaterTile32" parent="." instance=ExtResource("8_07spy")]
 position = Vector2(0, 208)
@@ -190,57 +214,93 @@ position = Vector2(48, 208)
 
 [node name="FertileTile12" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(16, 256)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile13" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(0, 256)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile14" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(32, 240)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile15" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(48, 224)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile16" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(64, 208)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile17" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(64, 192)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile18" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(64, 176)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile19" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(64, 160)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile20" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(64, 144)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile21" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(64, 128)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile22" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(64, 112)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile23" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(64, 96)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile24" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(64, 80)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile25" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(64, 64)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile26" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(64, 48)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile27" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(64, 32)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile28" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(80, 32)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="FertileTile29" parent="." instance=ExtResource("1_vlder")]
 position = Vector2(0, 32)
+script = ExtResource("4_c7uu0")
+type = ""
 
 [node name="Tile2" parent="." instance=ExtResource("9_2sw6j")]
 position = Vector2(0, 16)
@@ -392,3 +452,6 @@ boundary_bottom = 100.0
 
 [node name="ForestTile2" parent="." instance=ExtResource("2_1ybv2")]
 position = Vector2(80, 176)
+
+[node name="City" parent="." instance=ExtResource("2_jc8yp")]
+position = Vector2(72, 104)
