@@ -1,19 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://biqp5y1mo2up5"]
+[gd_scene load_steps=4 format=3 uid="uid://biqp5y1mo2up5"]
 
 [ext_resource type="PackedScene" uid="uid://cqf0jb8hl2d5b" path="res://resources/world_map_tiles.tscn" id="1_0biqy"]
 [ext_resource type="Script" uid="uid://d0eqvvpm377dt" path="res://scenes/world_camera.gd" id="2_47u71"]
+[ext_resource type="PackedScene" uid="uid://hsi3um5bitlf" path="res://scenes/city.tscn" id="2_ywgp6"]
 
 [node name="GameWorld" type="Node2D"]
+
+[node name="world_map" parent="." instance=ExtResource("1_0biqy")]
+metadata/_edit_lock_ = true
 
 [node name="TradeRoutes" type="Node2D" parent="."]
 
 [node name="Cities" type="Node2D" parent="."]
 
+[node name="City" parent="Cities" instance=ExtResource("2_ywgp6")]
+position = Vector2(376, 121)
+city_name = "Fork City"
+
+[node name="City2" parent="Cities" instance=ExtResource("2_ywgp6")]
+position = Vector2(232, 568)
+city_name = "Gobo Town"
+
 [node name="Guilds" type="Node" parent="."]
 
 [node name="Caravans" type="Node2D" parent="."]
-
-[node name="Node2D" parent="." instance=ExtResource("1_0biqy")]
 
 [node name="WorldCamera" type="Camera2D" parent="."]
 script = ExtResource("2_47u71")

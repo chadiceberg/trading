@@ -11,6 +11,7 @@ var base_production := {"grain": 1}
 @export var resources: Dictionary = {}
 @export var is_passable: bool = true
 @export var type: String
+@export var extraction_value: int
 
 @onready var sprite = $Sprite2D
 @onready var collision = $Area2D/CollisionShape2D
@@ -28,4 +29,6 @@ func on_click():
 	
 func get_controlled_production() -> Dictionary:
 	return base_production.duplicate() if controlled_by else {}
-	
+
+func get_type() -> String:
+	return type

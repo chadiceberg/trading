@@ -6,7 +6,7 @@
 
 [node name="ForestTile" instance=ExtResource("1_e1edm")]
 script = ExtResource("2_cifdx")
-type = "Forest"
+type = "forest"
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_afuvh")

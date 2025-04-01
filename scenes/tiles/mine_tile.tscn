@@ -6,7 +6,8 @@
 
 [node name="MineTile" instance=ExtResource("1_ecpki")]
 script = ExtResource("2_krm6v")
-type = "Mine"
+type = "mine"
+extraction_value = 10
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_42njl")

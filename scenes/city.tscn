@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://hsi3um5bitlf"]
+[gd_scene load_steps=6 format=3 uid="uid://hsi3um5bitlf"]
 
 [ext_resource type="Script" uid="uid://cma2eqv8k5vi7" path="res://city.gd" id="1_bih7l"]
 [ext_resource type="Texture2D" uid="uid://vq45oipyg6p6" path="res://resources/Cityicon .png" id="2_58ubr"]
+[ext_resource type="FontFile" uid="uid://cbejk781yhf8t" path="res://resources/fonts/PixelFontBundle2_v1_0/ThickPixels.ttf" id="3_rqxma"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_58ubr"]
 radius = 57.0088
+
+[sub_resource type="LabelSettings" id="LabelSettings_movw8"]
+font = ExtResource("3_rqxma")
 
 [node name="City" type="Node2D"]
 script = ExtResource("1_bih7l")
@@ -24,11 +28,19 @@ offset_top = 1.0
 offset_right = 40.0
 offset_bottom = 41.0
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="extraction_area" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="Extraction_Radius" type="CollisionShape2D" parent="extraction_area"]
 position = Vector2(8, 8)
 shape = SubResource("CircleShape2D_58ubr")
+
+[node name="City_Label" type="Label" parent="."]
+offset_left = 17.0
+offset_top = -12.0
+offset_right = 57.0
+offset_bottom = 11.0
+text = "CITYNAME"
+label_settings = SubResource("LabelSettings_movw8")
 
 [connection signal="timeout" from="ProductionTimer" to="." method="_on_production_timer_timeout"]
 [connection signal="timeout" from="DemandTimer" to="." method="_on_demand_timer_timeout"]

@@ -6,7 +6,7 @@
 
 [node name="GrainTile" instance=ExtResource("1_lqrhi")]
 script = ExtResource("2_esdxs")
-type = "Grain"
+type = "grain"
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_rgfqf")

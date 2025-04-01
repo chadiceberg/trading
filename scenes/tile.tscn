@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jy7pm"]
 size = Vector2(16, 16)
 
-[node name="Tile" type="Node2D"]
+[node name="Tile" type="Node2D" groups=["tiles"]]
 position = Vector2(5, 3)
 script = ExtResource("1_3dk36")
 type = "DEFAULT"
