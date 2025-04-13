@@ -6,6 +6,9 @@
 
 [node name="FertileTile" instance=ExtResource("1_x8xq1")]
 script = ExtResource("2_n45vy")
+resources = {
+"grain": 1
+}
 type = "fertile"
 
 [node name="Sprite2D" parent="." index="0"]

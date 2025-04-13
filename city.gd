@@ -1,5 +1,8 @@
-extends Node2D
+extends	Area2D
 
+class_name City
+
+signal city_clicked(city: City)
 # Exported variables for easy tweaking in the editor
 @export var inventory: Dictionary = {
 	"grain": 100,
@@ -39,24 +42,115 @@ extends Node2D
 # References to child nodes (set these up in the scene tree)
 @onready var production_timer = $ProductionTimer
 @onready var demand_timer = $DemandTimer
-@onready var world_map = $"../../world_map"
+@onready var world_map = $"../world_map"
 @onready var extraction_area = $extraction_area
+@onready var collision_shape = $CollisionShape2D
 
 var owned_tiles: Array = []
 
 func _ready() -> void:
+	print ("city initializing")
+	add_to_group("cities")
+	if not is_connected("input_event", _on_input_event):
+		input_event.connect(_on_input_event)
+	if collision_shape == null:
+		push_error("CollisionShape2D missing in %s" % name)
+	else:
+		print("City %s initialized at %s, collision extents: %s" % [
+			name, global_position, collision_shape.shape.extents if collision_shape.shape is RectangleShape2D else "N/A"
+		])
 	# Set up timers if not already done in the editor
 	$City_Label.text = city_name
 	production_timer.wait_time = production_interval
 	production_timer.start()
 	demand_timer.wait_time = production_interval / 2  # Upkeep ticks more often
 	demand_timer.start()
+	if not is_connected("input_event", _on_input_event):
+		input_event.connect(_on_input_event)
+	print("City %s initialized at %s" % [name, global_position])
+	owned_tiles = extraction_area.get_overlapping_areas()
+	update_extraction_rates(owned_tiles)
+	print_tiles_in_radius(owned_tiles)
 	
-	owned_tiles = get_tiles_in_radius()
+# Get the CollisionShape2D from the Area2D
+	var collision_shape = extraction_area.get_node("Extraction_Radius")
+	if not collision_shape or not collision_shape.shape:
+		print("No valid collision shape found!")
+		return
 	
-	update_extraction_rates()
-	print_tiles_in_radius()
+	# Get the shape and its extent
+	var shape = collision_shape.shape
+	var center_world_pos = extraction_area.global_position
 	
+	# Convert center position to tile coordinates
+	var center_tile_pos = world_map.local_to_map(world_map.to_local(center_world_pos))
+	
+	# Calculate the range of tiles to check based on shape
+	var tile_size = world_map.tile_set.tile_size  # e.g., Vector2i(16, 16)
+	var tiles_covered = []
+	
+	if shape is CircleShape2D:
+		var radius = shape.radius
+		var radius_in_tiles = int(radius / tile_size.x) + 1  # Approximate tile coverage
+		
+		# Check all tiles in a square around the center, then filter by radius
+		for x in range(-radius_in_tiles, radius_in_tiles + 1):
+			for y in range(-radius_in_tiles, radius_in_tiles + 1):
+				var tile_pos = Vector2i(center_tile_pos.x + x, center_tile_pos.y + y)
+				# Convert tile position back to world space to check distance
+				var tile_world_pos = world_map.to_global(world_map.map_to_local(tile_pos))
+				if center_world_pos.distance_to(tile_world_pos) <= radius:
+					var tile_id = world_map.get_cell_source_id(tile_pos)
+					if tile_id != -1:  # Tile exists
+						tiles_covered.append({"pos": tile_pos, "id": tile_id})
+						
+
+	
+	elif shape is RectangleShape2D:
+		var extents = shape.extents
+		var extents_in_tiles_x = int(extents.x / tile_size.x) + 1
+		var extents_in_tiles_y = int(extents.y / tile_size.y) + 1
+		
+		# Check all tiles within the rectangle
+		for x in range(-extents_in_tiles_x, extents_in_tiles_x + 1):
+			for y in range(-extents_in_tiles_y, extents_in_tiles_y + 1):
+				var tile_pos = Vector2i(center_tile_pos.x + x, center_tile_pos.y + y)
+				var tile_id = world_map.get_cell_source_id(tile_pos)
+				if tile_id != -1:
+					tiles_covered.append({"pos": tile_pos, "id": tile_id})
+	
+	# Output the results
+	if tiles_covered.size() > 0:
+		print("City %s extraction area covers %d tiles:" % [name, tiles_covered.size()])
+		#for tile in tiles_covered:
+			#var tile_data = world_map.get_cell_tile_data(tile.pos)
+			#var tile_name = tile_data.get_custom_data("name") if tile_data else "Unnamed"
+			#print(" - Tile at", tile.pos)
+	else:
+		print("City %s extraction area covers no tiles" % name)
+	
+	
+func _physics_process(delta):
+	var overlapping_bodies = extraction_area.get_overlapping_bodies()
+	if overlapping_bodies.size() > 0:
+		print("City %s detects %d bodies:" % [name, overlapping_bodies.size()])
+		for body in overlapping_bodies:
+			if body is Tile:
+				print(" - Overlapping TileMap: %s" % body.type)
+				# Optional: Check specific tiles (see below)
+				
+func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		print("City %s clicked at %s" % [name, global_position])
+		emit_signal("city_clicked", self)
+
+func get_city_info() -> Dictionary:
+	return {
+		"extraction_rates": extraction_rates,
+		"upkeep_costs": upkeep_costs,
+		"recipes": recipes,
+		"facilities": facilities
+	}
 
 # Resource extraction on timer
 func _on_production_timer_timeout() -> void:
@@ -147,8 +241,7 @@ func get_tiles_in_radius() -> Array:
 	return tiles_in_radius
 
 # Get tiles in radius (updated for node-based tiles)
-func print_tiles_in_radius() -> void:
-	var tiles = get_tiles_in_radius()
+func print_tiles_in_radius(tiles: Array) -> void:
 	if tiles.is_empty():
 		print(city_name, ": No tiles in extraction radius.")
 		return
@@ -160,9 +253,8 @@ func print_tiles_in_radius() -> void:
 		print(" - Type: ", tile_type, " | Coordinates: (", coords.x, ", ", coords.y, ")")
 
 # Update extraction rates based on tile nodes
-func update_extraction_rates() -> void:
+func update_extraction_rates(tiles: Array) -> void:
 	extraction_rates = {"grain": 0, "iron": 0, "wood": 0}
-	var tiles = get_tiles_in_radius()
 	
 	for tile in tiles:
 		var tile_type = tile.get_type()
@@ -184,4 +276,3 @@ func update_extraction_rates() -> void:
 			"water":
 				print("WATER")
 	print(city_name, " extraction rates updated: ", extraction_rates)
-	
