@@ -26,6 +26,12 @@ layout_mode = 2
 [node name="FacilitiesLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 
+[node name="TradeRoutesLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TradeButtonContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
 [node name="CloseButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Close"

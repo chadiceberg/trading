@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://r21u56p0erv2"]
+
+[ext_resource type="Script" uid="uid://dg636wscrq53i" path="res://city_manager.gd" id="1_ru2mo"]
+
+[node name="CityManager" type="Node"]
+script = ExtResource("1_ru2mo")

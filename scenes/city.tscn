@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cma2eqv8k5vi7" path="res://city.gd" id="1_bih7l"]
 [ext_resource type="Texture2D" uid="uid://vq45oipyg6p6" path="res://resources/Cityicon .png" id="2_58ubr"]
-[ext_resource type="Script" uid="uid://crddtwk1y8esu" path="res://scenes/extraction_area.gd" id="3_movw8"]
+[ext_resource type="Script" path="res://scenes/extraction_area.gd" id="3_movw8"]
 [ext_resource type="FontFile" uid="uid://cbejk781yhf8t" path="res://resources/fonts/PixelFontBundle2_v1_0/ThickPixels.ttf" id="3_rqxma"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_58ubr"]
@@ -25,11 +25,11 @@ texture = ExtResource("2_58ubr")
 
 [node name="DemandTimer" type="Timer" parent="."]
 
-[node name="extraction_area" type="Area2D" parent="."]
+[node name="Extraction_area" type="Area2D" parent="."]
 visible = false
 script = ExtResource("3_movw8")
 
-[node name="Extraction_Radius" type="CollisionShape2D" parent="extraction_area"]
+[node name="Extraction_Radius" type="CollisionShape2D" parent="Extraction_area"]
 shape = SubResource("CircleShape2D_58ubr")
 
 [node name="City_Label" type="Label" parent="."]
@@ -46,4 +46,4 @@ shape = SubResource("RectangleShape2D_movw8")
 
 [connection signal="timeout" from="ProductionTimer" to="." method="_on_production_timer_timeout"]
 [connection signal="timeout" from="DemandTimer" to="." method="_on_demand_timer_timeout"]
-[connection signal="area_entered" from="extraction_area" to="." method="_on_extraction_area_area_entered"]
+[connection signal="area_entered" from="Extraction_area" to="." method="_on_extraction_area_area_entered"]
