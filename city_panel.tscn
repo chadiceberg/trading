@@ -20,7 +20,7 @@ layout_mode = 2
 [node name="UpkeepLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Recipes Label" type="Label" parent="VBoxContainer"]
+[node name="RecipesLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 
 [node name="FacilitiesLabel" type="Label" parent="VBoxContainer"]

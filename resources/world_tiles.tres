@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=10 format=3 uid="uid://dnibjd1h1trj"]
+[gd_resource type="TileSet" load_steps=11 format=3 uid="uid://dnibjd1h1trj"]
 
 [ext_resource type="PackedScene" uid="uid://1446tylai4ue" path="res://scenes/tiles/fertile_tile.tscn" id="1_ofher"]
 [ext_resource type="PackedScene" uid="uid://bk4h0y4gkubbr" path="res://scenes/tiles/forest_tile.tscn" id="2_aonfs"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://44icni2bo3dt" path="res://scenes/tiles/rural_building_tile.tscn" id="6_yyp5r"]
 [ext_resource type="PackedScene" uid="uid://btur4k3k7l70t" path="res://scenes/tiles/swamp_tile.tscn" id="7_58jcd"]
 [ext_resource type="PackedScene" uid="uid://cfresv0ttrhry" path="res://scenes/tiles/water_tile.tscn" id="8_njy51"]
+[ext_resource type="PackedScene" uid="uid://hsi3um5bitlf" path="res://scenes/city.tscn" id="9_aonfs"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_3y8wk"]
 resource_name = "tiles"
@@ -19,6 +20,8 @@ scenes/5/scene = ExtResource("5_5gggp")
 scenes/6/scene = ExtResource("6_yyp5r")
 scenes/7/scene = ExtResource("7_58jcd")
 scenes/8/scene = ExtResource("8_njy51")
+scenes/9/scene = ExtResource("9_aonfs")
 
 [resource]
+physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetScenesCollectionSource_3y8wk")

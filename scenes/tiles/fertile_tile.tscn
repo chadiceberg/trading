@@ -1,28 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://1446tylai4ue"]
+[gd_scene load_steps=4 format=3 uid="uid://1446tylai4ue"]
 
 [ext_resource type="PackedScene" uid="uid://o18ouehtmi7n" path="res://scenes/tile.tscn" id="1_x8xq1"]
 [ext_resource type="Script" uid="uid://btlo8ldxubbkb" path="res://scenes/tiles/fertile_tile.gd" id="2_n45vy"]
 [ext_resource type="Texture2D" uid="uid://dft2wwqlqfh4g" path="res://resources/tiles/fertile_tile.PNG" id="2_vrrj6"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jy7pm"]
-size = Vector2(16, 16)
-
 [node name="FertileTile" instance=ExtResource("1_x8xq1")]
-position = Vector2(5, 3)
 script = ExtResource("2_n45vy")
 resources = {
 "grain": 1
 }
-type = "fertile"
 
 [node name="Sprite2D" parent="." index="0"]
-position = Vector2(-5, -3)
 texture = ExtResource("2_vrrj6")
-
-[node name="Area2D" type="Area2D" parent="." index="1"]
-position = Vector2(-5, -3)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
-shape = SubResource("RectangleShape2D_jy7pm")
-
-[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

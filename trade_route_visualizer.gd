@@ -14,7 +14,7 @@ func _draw() -> void:
 			var end = world_map.to_global(world_map.map_to_local(path[i + 1]))
 			draw_line(start, end, color, 2.0)
 
-func add_route(path: Array[Vector2i], world_map: TileMap, target_city: City) -> void:
+func add_route(path: Array[Vector2i], world_map: TileMapLayer, target_city: City) -> void:
 	routes.append({"path": path, "world_map": world_map, "target_city": target_city})
 	queue_redraw()
 

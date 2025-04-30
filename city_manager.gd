@@ -83,5 +83,6 @@ func establish_trade_route(sender: City, target: City) -> void:
 
 func _on_city_clicked(city: City) -> void:
 	print("CityManager: City %s was clicked" % city.city_name)
+	city._update_extraction_area()
 	calculate_all_trade_routes()
 	show_trade_routes(city)

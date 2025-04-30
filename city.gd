@@ -1,4 +1,4 @@
-extends Area2D
+extends Node2D
 
 class_name City
 
@@ -45,8 +45,8 @@ var potential_trade_routes: Array[Dictionary] = []
 @onready var demand_timer: Timer = $DemandTimer
 @onready var world_map: TileMapLayer = $"../world_map"
 @onready var extraction_area: Area2D = $ExtractionArea
-@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var city_label: Label = $City_Label
+@onready var city_area: Area2D = $CityArea
 
 var owned_tiles: Array = []
 var city_tiles: Array[Vector2i] = []
@@ -58,6 +58,8 @@ const CITY_RADIUS_GROWTH: float = 16.0
 const BASE_CONTROL_RADIUS: float = 100.0
 const CONTROL_RADIUS_GROWTH: float = 50.0
 const BASE_TRADE_DISTANCE: float = 100.0  # Base trade distance for tier 2
+
+var extraction_initialized = false
 
 # Terrain costs for trade routes
 const TERRAIN_COSTS: Dictionary = {
@@ -74,26 +76,24 @@ const TERRAIN_COSTS: Dictionary = {
 }
 
 func _ready() -> void:
+	await get_tree().process_frame
 	_initialize_city()
 	_setup_timers()
 	_update_extraction_area()
-	_update_city_radius()
-	_update_city_tiles()
+	#call_deferred("_update_city_radius")
+	#call_deferred("_update_city_tiles")
+
+func _physics_process(_delta: float) -> void:
+	if extraction_initialized == false:
+		var overlapping_bodies = extraction_area.get_overlapping_areas()
+		if overlapping_bodies.size() > 0:
+			print("City %s detects %d bodies" % [name, overlapping_bodies.size()])
+			extraction_initialized = true
 
 func _initialize_city() -> void:
 	name = city_name
 	add_to_group("cities")
 	city_label.text = city_name
-	if not is_connected("input_event", _on_input_event):
-		input_event.connect(_on_input_event)
-	
-	if collision_shape == null:
-		push_error("CollisionShape2D missing in %s" % name)
-	else:
-		print("City %s initialized at %s, collision extents: %s" % [
-			name, global_position, 
-			collision_shape.shape.extents if collision_shape.shape is RectangleShape2D else "N/A"
-		])
 
 func _setup_timers() -> void:
 	production_timer.wait_time = production_interval
@@ -103,7 +103,7 @@ func _setup_timers() -> void:
 
 func _update_extraction_area() -> void:
 	owned_tiles = extraction_area.get_overlapping_areas()
-	update_extraction_rates(owned_tiles)
+	#update_extraction_rates(owned_tiles)
 	_log_tiles_in_radius(owned_tiles)
 
 func _set_city_tier(new_tier: int) -> void:
@@ -158,18 +158,13 @@ func _update_city_tiles() -> void:
 	
 	print("%s updated city_tiles: %d tiles" % [city_name, city_tiles.size()])
 
-func _physics_process(_delta: float) -> void:
-	var overlapping_bodies = extraction_area.get_overlapping_bodies()
-	if overlapping_bodies.size() > 0:
-		print("City %s detects %d bodies" % [name, overlapping_bodies.size()])
-		for body in overlapping_bodies:
-			if body is Tile:
-				print(" - Overlapping Tile: %s" % body.type)
+
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		print("City %s clicked at %s" % [name, global_position])
 		emit_signal("city_clicked", self)
+		_update_extraction_area()
 
 func _on_production_timer_timeout() -> void:
 	for resource in extraction_rates.keys():
@@ -245,19 +240,30 @@ func _apply_facility_effect(facility_name: String) -> void:
 			"lumber_output":
 				recipes["lumber"]["output"] += effect[key]
 
-func get_tiles_in_radius() -> Array:
-	if not extraction_area:
-		print("%s: No ExtractionArea assigned!" % city_name)
-		return []
+func get_tiles_in_radius(radius) -> Array:
+	var center_world_pos = extraction_area.global_position
 	
-	var tiles_in_radius: Array = []
-	var overlapping_areas = extraction_area.get_overlapping_areas()
+	# Convert center position to tile coordinates
+	var center_tile_pos = world_map.local_to_map(world_map.to_local(center_world_pos))
 	
-	for area in overlapping_areas:
-		if area is Tile:
-			tiles_in_radius.append(area)
+	# Calculate the range of tiles to check based on shape
+	var tile_size = world_map.tile_set.tile_size  # e.g., Vector2i(16, 16)
+	var tiles_covered = []
 	
-	return tiles_in_radius
+	var radius_in_tiles = int(radius / tile_size.x) + 1  # Approximate tile coverage
+		
+	# Check all tiles in a square around the center, then filter by radius
+	for x in range(-radius_in_tiles, radius_in_tiles + 1):
+		for y in range(-radius_in_tiles, radius_in_tiles + 1):
+			var tile_pos = Vector2i(center_tile_pos.x + x, center_tile_pos.y + y)
+			# Convert tile position back to world space to check distance
+			var tile_world_pos = world_map.to_global(world_map.map_to_local(tile_pos))
+			if center_world_pos.distance_to(tile_world_pos) <= radius:
+				var tile_id = world_map.get_cell_source_id(tile_pos)
+				if tile_id != -1:  # Tile exists
+					tiles_covered.append({"pos": tile_pos, "id": tile_id})
+					
+	return tiles_covered
 
 func _log_tiles_in_radius(tiles: Array) -> void:
 	if tiles.is_empty():
@@ -266,9 +272,9 @@ func _log_tiles_in_radius(tiles: Array) -> void:
 	
 	print("%s: Tiles in extraction radius:" % city_name)
 	for tile in tiles:
-		var tile_type = tile.get_type()
+		#var tile_type = tile.get_type()
 		var coords = tile.global_position
-		print(" - Type: %s | Coordinates: (%d, %d)" % [tile_type, coords.x, coords.y])
+		print(" Type: %s -  Coordinates: (%d, %d)" % [tile.tile_type, coords.x, coords.y])
 
 func update_extraction_rates(tiles: Array) -> void:
 	extraction_rates = {"grain": 0, "iron": 0, "wood": 0}

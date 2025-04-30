@@ -52,7 +52,7 @@ func _initialize_tile() -> void:
 	if not is_connected("input_event", _on_input_event):
 		input_event.connect(_on_input_event)
 	name = "Tile_%s_%s" % [tile_type, global_position]
-	print("Tile %s initialized at %s" % [tile_type, global_position])
+	#print("Tile %s initialized at %s" % [tile_type, global_position])
 
 func _check_overlaps() -> void:
 	overlapping_areas = get_overlapping_areas()
