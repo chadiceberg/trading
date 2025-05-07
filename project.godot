@@ -13,7 +13,16 @@ config_version=5
 config/name="Trading"
 run/main_scene="uid://biqp5y1mo2up5"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://resources/icon.svg"
+
+[file_customization]
+
+folder_colors={
+"res://resources/": "green",
+"res://scenes/": "red",
+"res://scenes/tiles/": "orange",
+"res://scripts/": "yellow"
+}
 
 [global_group]
 

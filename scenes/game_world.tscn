@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://biqp5y1mo2up5"]
 
-[ext_resource type="PackedScene" uid="uid://cqf0jb8hl2d5b" path="res://resources/world_map_tiles.tscn" id="1_0biqy"]
-[ext_resource type="Script" uid="uid://d0eqvvpm377dt" path="res://scenes/world_camera.gd" id="2_47u71"]
-[ext_resource type="Script" uid="uid://ddqwps2i6hsff" path="res://scenes/tile_manager.gd" id="4_0vfqx"]
+[ext_resource type="PackedScene" uid="uid://cqf0jb8hl2d5b" path="res://scenes/world_map_tiles.tscn" id="1_0biqy"]
+[ext_resource type="Script" uid="uid://d0eqvvpm377dt" path="res://scripts/UI/world_camera.gd" id="2_47u71"]
+[ext_resource type="Script" uid="uid://ddqwps2i6hsff" path="res://scripts/UI/Managers/tile_manager.gd" id="4_0vfqx"]
 [ext_resource type="PackedScene" uid="uid://hsi3um5bitlf" path="res://scenes/city.tscn" id="5_6c6v5"]
-[ext_resource type="PackedScene" uid="uid://r21u56p0erv2" path="res://city_manager.tscn" id="5_wbbl4"]
+[ext_resource type="PackedScene" uid="uid://r21u56p0erv2" path="res://scenes/city_manager.tscn" id="5_wbbl4"]
 
 [node name="GameWorld" type="Node2D"]
 
@@ -38,5 +38,8 @@ position = Vector2(232, 568)
 city_name = "Gobo Town"
 
 [node name="City2" parent="." instance=ExtResource("5_6c6v5")]
-position = Vector2(420, 84)
+position = Vector2(425, 122)
 city_name = "Riverton"
+
+[node name="City3" parent="." instance=ExtResource("5_6c6v5")]
+position = Vector2(347, 88)

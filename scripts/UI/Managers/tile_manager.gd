@@ -4,7 +4,7 @@ extends Node
 var tile_instances: Dictionary = {} # Vector2i -> Tile
 var city_instances: Array = [] # Array of City
 var city_panel: Node = null
-var city_panel_scene: PackedScene = preload("res://city_panel.tscn")
+var city_panel_scene: PackedScene = preload("res://scenes/city_panel.tscn")
 
 func _ready() -> void:
 	if tile_map_layer == null:

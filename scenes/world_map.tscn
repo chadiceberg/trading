@@ -1,18 +1,18 @@
 [gd_scene load_steps=14 format=3 uid="uid://do1jlifoiv65o"]
 
-[ext_resource type="Script" uid="uid://deonlqi4r5l7q" path="res://scenes/world_map.gd" id="1_6a477"]
+[ext_resource type="Script" uid="uid://deonlqi4r5l7q" path="res://scripts/UI/world_map.gd" id="1_6a477"]
 [ext_resource type="PackedScene" uid="uid://1446tylai4ue" path="res://scenes/tiles/fertile_tile.tscn" id="1_vlder"]
 [ext_resource type="PackedScene" uid="uid://bk4h0y4gkubbr" path="res://scenes/tiles/forest_tile.tscn" id="2_1ybv2"]
 [ext_resource type="PackedScene" uid="uid://hsi3um5bitlf" path="res://scenes/city.tscn" id="2_jc8yp"]
 [ext_resource type="PackedScene" uid="uid://7lhrke1ll4hk" path="res://scenes/tiles/grain_tile.tscn" id="3_n85vh"]
-[ext_resource type="Script" uid="uid://dgwu04vxebx5s" path="res://scripts/tile.gd" id="4_c7uu0"]
+[ext_resource type="Script" uid="uid://dgwu04vxebx5s" path="res://scripts/Objects/tiles/tile.gd" id="4_c7uu0"]
 [ext_resource type="PackedScene" uid="uid://mgsw3k3httud" path="res://scenes/tiles/mine_tile.tscn" id="4_kedyp"]
 [ext_resource type="PackedScene" uid="uid://bger47myvrj7d" path="res://scenes/tiles/mountain_tile.tscn" id="5_k2x6u"]
 [ext_resource type="PackedScene" uid="uid://44icni2bo3dt" path="res://scenes/tiles/rural_building_tile.tscn" id="6_ux7wi"]
 [ext_resource type="PackedScene" uid="uid://btur4k3k7l70t" path="res://scenes/tiles/swamp_tile.tscn" id="7_2knnn"]
 [ext_resource type="PackedScene" uid="uid://cfresv0ttrhry" path="res://scenes/tiles/water_tile.tscn" id="8_07spy"]
-[ext_resource type="PackedScene" uid="uid://o18ouehtmi7n" path="res://scenes/tile.tscn" id="9_2sw6j"]
-[ext_resource type="Script" uid="uid://d0eqvvpm377dt" path="res://scenes/world_camera.gd" id="10_0hitc"]
+[ext_resource type="PackedScene" uid="uid://o18ouehtmi7n" path="res://scenes/tiles/tile.tscn" id="9_2sw6j"]
+[ext_resource type="Script" uid="uid://d0eqvvpm377dt" path="res://scripts/UI/world_camera.gd" id="10_0hitc"]
 
 [node name="WorldMap" type="Node2D"]
 script = ExtResource("1_6a477")

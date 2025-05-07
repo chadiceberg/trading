@@ -8,10 +8,17 @@ signal tile_clicked(tile: Tile)
 @export var tile_type: String = "unknown" : set = _set_tile_type
 @export var is_passable: bool = true
 @export var movement_cost: float = 1.0
-@export var extraction_value: int = 0
+@export var extraction_value: int = 1
 
 # Resources
-@export var base_production: Dictionary = {"grain": 0}
+@export var base_production: Dictionary = 	{
+	"grain": 0,
+	"iron": 0,
+	"wood": 0,
+	"lumber": 0,
+	"stone": 0,
+	"water": 0
+	}
 @export var resources: Dictionary = {}
 
 # State
@@ -90,3 +97,6 @@ func get_extraction_value() -> int:
 func set_controlled_by(controller: Node) -> void:
 	controlled_by = controller
 	print("Tile %s at %s now controlled by %s" % [tile_type, global_position, controller.name if controller else "none"])
+
+func get_extraction_rates() -> Dictionary:
+	return base_production

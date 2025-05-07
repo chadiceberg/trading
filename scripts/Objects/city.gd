@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 
 class_name City
 
@@ -14,12 +14,19 @@ signal city_clicked(city: City)
 @export var inventory: Dictionary = {
 	"grain": 100,
 	"iron": 20,
-	"lumber": 0
+	"wood": 0,
+	"lumber": 0,
+	"stone": 0,
+	"water": 0
 }
 
 @export var extraction_rates: Dictionary = {
-	"grain": 10,
-	"iron": 5
+	"grain": 0,
+	"iron": 0,
+	"wood": 0,
+	"lumber": 0,
+	"stone": 0,
+	"water": 0
 }
 
 @export var upkeep_costs: Dictionary = {
@@ -58,6 +65,8 @@ const CITY_RADIUS_GROWTH: float = 16.0
 const BASE_CONTROL_RADIUS: float = 100.0
 const CONTROL_RADIUS_GROWTH: float = 50.0
 const BASE_TRADE_DISTANCE: float = 100.0  # Base trade distance for tier 2
+const BASE_STORAGE_MAX: int = 1500
+
 
 var extraction_initialized = false
 
@@ -80,8 +89,8 @@ func _ready() -> void:
 	_initialize_city()
 	_setup_timers()
 	_update_extraction_area()
-	#call_deferred("_update_city_radius")
-	#call_deferred("_update_city_tiles")
+	_update_city_radius()
+	_update_city_tiles()
 
 func _physics_process(_delta: float) -> void:
 	if extraction_initialized == false:
@@ -103,8 +112,8 @@ func _setup_timers() -> void:
 
 func _update_extraction_area() -> void:
 	owned_tiles = extraction_area.get_overlapping_areas()
-	#update_extraction_rates(owned_tiles)
-	_log_tiles_in_radius(owned_tiles)
+	update_extraction_rates(owned_tiles)
+	#_log_tiles_in_radius(owned_tiles)
 
 func _set_city_tier(new_tier: int) -> void:
 	city_tier = clampi(new_tier, 0, MAX_TIER)
@@ -169,6 +178,8 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 func _on_production_timer_timeout() -> void:
 	for resource in extraction_rates.keys():
 		inventory[resource] = inventory.get(resource, 0) + extraction_rates[resource]
+	
+	print(city_name, inventory)
 
 func _on_demand_timer_timeout() -> void:
 	for resource in upkeep_costs.keys():
@@ -240,30 +251,6 @@ func _apply_facility_effect(facility_name: String) -> void:
 			"lumber_output":
 				recipes["lumber"]["output"] += effect[key]
 
-func get_tiles_in_radius(radius) -> Array:
-	var center_world_pos = extraction_area.global_position
-	
-	# Convert center position to tile coordinates
-	var center_tile_pos = world_map.local_to_map(world_map.to_local(center_world_pos))
-	
-	# Calculate the range of tiles to check based on shape
-	var tile_size = world_map.tile_set.tile_size  # e.g., Vector2i(16, 16)
-	var tiles_covered = []
-	
-	var radius_in_tiles = int(radius / tile_size.x) + 1  # Approximate tile coverage
-		
-	# Check all tiles in a square around the center, then filter by radius
-	for x in range(-radius_in_tiles, radius_in_tiles + 1):
-		for y in range(-radius_in_tiles, radius_in_tiles + 1):
-			var tile_pos = Vector2i(center_tile_pos.x + x, center_tile_pos.y + y)
-			# Convert tile position back to world space to check distance
-			var tile_world_pos = world_map.to_global(world_map.map_to_local(tile_pos))
-			if center_world_pos.distance_to(tile_world_pos) <= radius:
-				var tile_id = world_map.get_cell_source_id(tile_pos)
-				if tile_id != -1:  # Tile exists
-					tiles_covered.append({"pos": tile_pos, "id": tile_id})
-					
-	return tiles_covered
 
 func _log_tiles_in_radius(tiles: Array) -> void:
 	if tiles.is_empty():
@@ -277,19 +264,11 @@ func _log_tiles_in_radius(tiles: Array) -> void:
 		print(" Type: %s -  Coordinates: (%d, %d)" % [tile.tile_type, coords.x, coords.y])
 
 func update_extraction_rates(tiles: Array) -> void:
-	extraction_rates = {"grain": 0, "iron": 0, "wood": 0}
-	
 	for tile in tiles:
-		var tile_type = tile.get_type()
-		match tile_type:
-			"fertile", "grain":
-				extraction_rates["grain"] += tile.get_extraction_value()
-			"mine", "mountain":
-				extraction_rates["iron"] += tile.get_extraction_value()
-			"forest", "rural", "swamp":
-				extraction_rates["wood"] += tile.get_extraction_value()
-			"water":
-				pass
+		var tile_rates = tile.get_extraction_rates()
+		for key in extraction_rates:
+			if tile_rates.has(key):
+				extraction_rates[key] += tile_rates[key]
 	print("%s extraction rates updated: %s" % [city_name, extraction_rates])
 
 func calculate_potential_trade_routes(cities: Array[City]) -> void:

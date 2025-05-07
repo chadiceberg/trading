@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://hsi3um5bitlf"]
+[gd_scene load_steps=9 format=3 uid="uid://hsi3um5bitlf"]
 
-[ext_resource type="Script" uid="uid://cma2eqv8k5vi7" path="res://city.gd" id="1_bih7l"]
+[ext_resource type="Script" uid="uid://cma2eqv8k5vi7" path="res://scripts/Objects/city.gd" id="1_bih7l"]
 [ext_resource type="Texture2D" uid="uid://vq45oipyg6p6" path="res://resources/Cityicon .png" id="2_58ubr"]
-[ext_resource type="Script" uid="uid://crddtwk1y8esu" path="res://scenes/extraction_area.gd" id="3_movw8"]
+[ext_resource type="Script" uid="uid://crddtwk1y8esu" path="res://scripts/UI/Managers/extraction_area.gd" id="3_movw8"]
 [ext_resource type="FontFile" uid="uid://cbejk781yhf8t" path="res://resources/fonts/PixelFontBundle2_v1_0/ThickPixels.ttf" id="3_rqxma"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_58ubr"]
@@ -13,7 +13,9 @@ font = ExtResource("3_rqxma")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_movw8"]
 
-[node name="City" type="Node2D" groups=["cities"]]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_movw8"]
+
+[node name="City" type="Area2D" groups=["cities"]]
 script = ExtResource("1_bih7l")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -44,5 +46,9 @@ label_settings = SubResource("LabelSettings_movw8")
 [node name="CityCollision" type="CollisionShape2D" parent="CityArea"]
 shape = SubResource("CircleShape2D_movw8")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_movw8")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="timeout" from="ProductionTimer" to="." method="_on_production_timer_timeout"]
 [connection signal="timeout" from="DemandTimer" to="." method="_on_demand_timer_timeout"]
