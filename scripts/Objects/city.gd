@@ -6,9 +6,11 @@ signal city_clicked(city: City)
 
 # Configuration
 @export var city_name: String = "Unnamed City"
-@export var city_tier: int = 0 : set = _set_city_tier
+@export var init_city_tier: int = 0 
 @export var control_radius: float = 300.0
 @export var production_interval: float = 5.0
+
+var city_tier: int = 0 : set = _set_city_tier
 
 # Resources
 @export var inventory: Dictionary = {
@@ -54,16 +56,19 @@ var potential_trade_routes: Array[Dictionary] = []
 @onready var extraction_area: Area2D = $ExtractionArea
 @onready var city_label: Label = $City_Label
 @onready var city_area: Area2D = $CityArea
+@onready var extraction_collision: CollisionShape2D = $ExtractionArea/ExtractionCollision
+@onready var city_collision: CollisionShape2D = $CityArea/CityCollision
 
 var owned_tiles: Array = []
-var city_tiles: Array[Vector2i] = []
+var city_tiles: Array = []
 var city_radius: float = 0.0
+var extraction_radius: float = 0.0
 
 const MAX_TIER: int = 5
 const BASE_CITY_RADIUS: float = 16.0
 const CITY_RADIUS_GROWTH: float = 16.0
-const BASE_CONTROL_RADIUS: float = 100.0
-const CONTROL_RADIUS_GROWTH: float = 50.0
+const BASE_CONTROL_RADIUS: float = 80.0
+const CONTROL_RADIUS_GROWTH: float = 64.0
 const BASE_TRADE_DISTANCE: float = 100.0  # Base trade distance for tier 2
 const BASE_STORAGE_MAX: int = 1500
 
@@ -87,10 +92,7 @@ const TERRAIN_COSTS: Dictionary = {
 func _ready() -> void:
 	await get_tree().process_frame
 	_initialize_city()
-	_setup_timers()
-	_update_extraction_area()
-	_update_city_radius()
-	_update_city_tiles()
+	
 
 func _physics_process(_delta: float) -> void:
 	if extraction_initialized == false:
@@ -103,6 +105,8 @@ func _initialize_city() -> void:
 	name = city_name
 	add_to_group("cities")
 	city_label.text = city_name
+	city_tier = init_city_tier
+	_setup_timers()
 
 func _setup_timers() -> void:
 	production_timer.wait_time = production_interval
@@ -117,26 +121,20 @@ func _update_extraction_area() -> void:
 
 func _set_city_tier(new_tier: int) -> void:
 	city_tier = clampi(new_tier, 0, MAX_TIER)
+	_update_extraction_radius()
 	_update_city_radius()
 	_update_city_tiles()
+	print("City Name: %s  City Tier: %d  City Radius: %d  Extraction Radius: %d" % [city_name, city_tier, city_radius, extraction_radius])
 	print("%s tier updated to %d" % [city_name, city_tier])
+	
 
 func _update_city_radius() -> void:
 	if city_tier == 0:
 		city_radius = 0.0
-		control_radius = BASE_CONTROL_RADIUS
 	else:
 		city_radius = BASE_CITY_RADIUS + (CITY_RADIUS_GROWTH * (city_tier - 1))
-		control_radius = BASE_CONTROL_RADIUS + (CONTROL_RADIUS_GROWTH * city_tier)
 	
-	if extraction_area and extraction_area.get_node("CollisionShape2D"):
-		var extraction_collision = extraction_area.get_node("CollisionShape2D") as CollisionShape2D
-		if extraction_collision.shape is CircleShape2D:
-			extraction_collision.shape.radius = control_radius
-		else:
-			var new_shape = CircleShape2D.new()
-			new_shape.radius = control_radius
-			extraction_collision.shape = new_shape
+	city_collision.shape.radius = city_radius
 	
 	print("%s radius updated: city_radius=%.1f, control_radius=%.1f" % [city_name, city_radius, control_radius])
 
@@ -167,6 +165,14 @@ func _update_city_tiles() -> void:
 	
 	print("%s updated city_tiles: %d tiles" % [city_name, city_tiles.size()])
 
+
+func _update_extraction_radius():
+	if city_tier == 0:
+		extraction_radius = BASE_CONTROL_RADIUS
+	else:
+		extraction_radius = (BASE_CONTROL_RADIUS * city_tier) + BASE_CONTROL_RADIUS
+	
+	extraction_collision.shape.radius = extraction_radius
 
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:

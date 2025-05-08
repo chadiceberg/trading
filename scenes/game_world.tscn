@@ -36,10 +36,14 @@ script = ExtResource("4_0vfqx")
 [node name="City" parent="." instance=ExtResource("5_6c6v5")]
 position = Vector2(232, 568)
 city_name = "Gobo Town"
+init_city_tier = 2
 
 [node name="City2" parent="." instance=ExtResource("5_6c6v5")]
-position = Vector2(425, 122)
+position = Vector2(452, 133)
 city_name = "Riverton"
+init_city_tier = 5
 
 [node name="City3" parent="." instance=ExtResource("5_6c6v5")]
-position = Vector2(347, 88)
+position = Vector2(72, 85)
+city_name = "Rock"
+init_city_tier = 1
