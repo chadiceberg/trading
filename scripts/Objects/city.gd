@@ -124,7 +124,7 @@ func _set_city_tier(new_tier: int) -> void:
 	_update_extraction_radius()
 	_update_city_radius()
 	_update_city_tiles()
-	print("City Name: %s  City Tier: %d  City Radius: %d  Extraction Radius: %d" % [city_name, city_tier, city_radius, extraction_radius])
+	print("City Name: %s  City Tier: %d  City Radius: %d  Extraction Radius: %d" % [city_name, city_tier, city_collision.shape.get_radius(), extraction_collision.shape.get_radius()])
 	print("%s tier updated to %d" % [city_name, city_tier])
 	
 
@@ -134,7 +134,7 @@ func _update_city_radius() -> void:
 	else:
 		city_radius = BASE_CITY_RADIUS + (CITY_RADIUS_GROWTH * (city_tier - 1))
 	
-	city_collision.shape.radius = city_radius
+	city_collision.shape.set_radius(city_radius)
 	
 	print("%s radius updated: city_radius=%.1f, control_radius=%.1f" % [city_name, city_radius, control_radius])
 
@@ -172,7 +172,7 @@ func _update_extraction_radius():
 	else:
 		extraction_radius = (BASE_CONTROL_RADIUS * city_tier) + BASE_CONTROL_RADIUS
 	
-	extraction_collision.shape.radius = extraction_radius
+	extraction_collision.shape.set_radius(extraction_radius)
 
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
