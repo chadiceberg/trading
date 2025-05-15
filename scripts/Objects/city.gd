@@ -72,7 +72,6 @@ const CONTROL_RADIUS_GROWTH: float = 64.0
 const BASE_TRADE_DISTANCE: float = 100.0  # Base trade distance for tier 2
 const BASE_STORAGE_MAX: int = 1500
 
-
 var extraction_initialized = false
 
 # Terrain costs for trade routes
@@ -92,14 +91,9 @@ const TERRAIN_COSTS: Dictionary = {
 func _ready() -> void:
 	await get_tree().process_frame
 	_initialize_city()
-	
 
 func _physics_process(_delta: float) -> void:
-	if extraction_initialized == false:
-		var overlapping_bodies = extraction_area.get_overlapping_areas()
-		if overlapping_bodies.size() > 0:
-			print("City %s detects %d bodies" % [name, overlapping_bodies.size()])
-			extraction_initialized = true
+	pass
 
 func _initialize_city() -> void:
 	name = city_name
@@ -116,27 +110,53 @@ func _setup_timers() -> void:
 
 func _update_extraction_area() -> void:
 	owned_tiles = extraction_area.get_overlapping_areas()
-	update_extraction_rates(owned_tiles)
-	#_log_tiles_in_radius(owned_tiles)
+	print("%s updating extraction area with radius %.1f: %d tiles detected" % [city_name, extraction_collision.shape.radius if extraction_collision.shape else 0.0, owned_tiles.size()])
 
 func _set_city_tier(new_tier: int) -> void:
 	city_tier = clampi(new_tier, 0, MAX_TIER)
 	_update_extraction_radius()
 	_update_city_radius()
 	_update_city_tiles()
-	print("City Name: %s  City Tier: %d  City Radius: %d  Extraction Radius: %d" % [city_name, city_tier, city_collision.shape.get_radius(), extraction_collision.shape.get_radius()])
+	_update_extraction_area()
+	_update_extraction_rates()
+	print("City Name: %s  City Tier: %d  City Radius: %.1f  Extraction Radius: %.1f" % [city_name, city_tier, city_radius, extraction_radius])
 	print("%s tier updated to %d" % [city_name, city_tier])
-	
 
 func _update_city_radius() -> void:
+	if not city_collision:
+		push_error("%s: City collision node not initialized!" % city_name)
+		return
+	
+	# Calculate new city radius
 	if city_tier == 0:
 		city_radius = 0.0
 	else:
 		city_radius = BASE_CITY_RADIUS + (CITY_RADIUS_GROWTH * (city_tier - 1))
 	
-	city_collision.shape.set_radius(city_radius)
+	# Create new CircleShape2D with updated radius
+	var new_shape = CircleShape2D.new()
+	new_shape.radius = city_radius
+	city_collision.shape = new_shape
 	
-	print("%s radius updated: city_radius=%.1f, control_radius=%.1f" % [city_name, city_radius, control_radius])
+	print("%s city radius updated: city_radius=%.1f, extraction_radius=%.1f" % [city_name, city_radius, extraction_radius])
+
+func _update_extraction_radius() -> void:
+	if not extraction_collision:
+		push_error("%s: Extraction collision node not initialized!" % city_name)
+		return
+	
+	# Calculate new extraction radius
+	if city_tier == 0:
+		extraction_radius = BASE_CONTROL_RADIUS
+	else:
+		extraction_radius = (BASE_CONTROL_RADIUS * city_tier) + BASE_CONTROL_RADIUS
+	
+	# Create new CircleShape2D with updated radius
+	var new_shape = CircleShape2D.new()
+	new_shape.radius = extraction_radius
+	extraction_collision.shape = new_shape
+	
+	print("%s extraction radius updated to %.1f" % [city_name, extraction_radius])
 
 func _update_city_tiles() -> void:
 	city_tiles.clear()
@@ -146,40 +166,17 @@ func _update_city_tiles() -> void:
 	
 	var center_pos = Vector2i(global_position / 16.0)  # Approximate tile coords (adjust if tile size differs)
 	
-	if city_tier == 0:
-		city_tiles.append(center_pos)
-	else:
-		var tile_size = 16.0  # Hardcoded; replace with world_map.tile_set.tile_size.x if using TileMap
-		var radius_in_tiles = int(ceil(city_radius / tile_size)) + 1
-		
-		for x in range(-radius_in_tiles, radius_in_tiles + 1):
-			for y in range(-radius_in_tiles, radius_in_tiles + 1):
-				var tile_pos = Vector2i(center_pos.x + x, center_pos.y + y)
-				var tile_world_pos = Vector2(tile_pos) * tile_size
-				if global_position.distance_to(tile_world_pos) <= city_radius:
-					# Check if a tile scene exists at this position
-					for tile in get_tree().get_nodes_in_group("tiles"):
-						if tile.global_position.distance_to(tile_world_pos) < tile_size / 2:
-							city_tiles.append(tile_pos)
-							break
+	
+	city_tiles = city_area.get_overlapping_areas()
 	
 	print("%s updated city_tiles: %d tiles" % [city_name, city_tiles.size()])
-
-
-func _update_extraction_radius():
-	if city_tier == 0:
-		extraction_radius = BASE_CONTROL_RADIUS
-	else:
-		extraction_radius = (BASE_CONTROL_RADIUS * city_tier) + BASE_CONTROL_RADIUS
-	
-	extraction_collision.shape.set_radius(extraction_radius)
-
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		print("City %s clicked at %s" % [name, global_position])
 		emit_signal("city_clicked", self)
 		_update_extraction_area()
+		_update_extraction_rates()
 
 func _on_production_timer_timeout() -> void:
 	for resource in extraction_rates.keys():
@@ -257,7 +254,6 @@ func _apply_facility_effect(facility_name: String) -> void:
 			"lumber_output":
 				recipes["lumber"]["output"] += effect[key]
 
-
 func _log_tiles_in_radius(tiles: Array) -> void:
 	if tiles.is_empty():
 		print("%s: No tiles in extraction radius." % city_name)
@@ -265,12 +261,12 @@ func _log_tiles_in_radius(tiles: Array) -> void:
 	
 	print("%s: Tiles in extraction radius:" % city_name)
 	for tile in tiles:
-		#var tile_type = tile.get_type()
 		var coords = tile.global_position
 		print(" Type: %s -  Coordinates: (%d, %d)" % [tile.tile_type, coords.x, coords.y])
 
-func update_extraction_rates(tiles: Array) -> void:
-	for tile in tiles:
+func _update_extraction_rates() -> void:
+	clear_dictionary_values(extraction_rates)
+	for tile in owned_tiles:
 		var tile_rates = tile.get_extraction_rates()
 		for key in extraction_rates:
 			if tile_rates.has(key):
@@ -375,3 +371,7 @@ func _reconstruct_path(came_from: Dictionary, current: Vector2i) -> Array[Vector
 func establish_trade_route(target_city: City, path: Array[Vector2i]) -> void:
 	trade_routes.append({"city": target_city, "path": path})
 	print("%s established trade route with %s" % [city_name, target_city.city_name])
+	
+func clear_dictionary_values(dict: Dictionary) -> void:
+	for key in dict.keys():
+		dict[key] = 0

@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://lnykvkfsffkq"]
+[gd_scene load_steps=5 format=3 uid="uid://lnykvkfsffkq"]
 
 [ext_resource type="Script" uid="uid://bcatrp32guwyj" path="res://scripts/UI/city_panel.gd" id="1_15sdg"]
+[ext_resource type="FontFile" uid="uid://cu0xvbm55w3dm" path="res://resources/fonts/PixelFontBundle2_v1_0/SuperTechnology.ttf" id="2_atg2p"]
+[ext_resource type="Texture2D" uid="uid://c1wakgng5cuay" path="res://resources/UI/Arrow_up.png" id="3_jxi4p"]
+[ext_resource type="Texture2D" uid="uid://dhc11mptg33d4" path="res://resources/UI/Arrow_down.png" id="4_pux4c"]
 
 [node name="CityPanel" type="PanelContainer"]
 offset_left = 1.0
@@ -8,30 +11,54 @@ offset_right = 193.0
 offset_bottom = 169.0
 script = ExtResource("1_15sdg")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MainContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer"]
 layout_mode = 2
 
-[node name="ExtractionLabel" type="Label" parent="VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="MainContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="UpkeepLabel" type="Label" parent="VBoxContainer"]
+[node name="TierLabel" type="Label" parent="MainContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="RecipesLabel" type="Label" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="FacilitiesLabel" type="Label" parent="VBoxContainer"]
+[node name="IncreaseTierButton" type="Button" parent="MainContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_atg2p")
+theme_override_font_sizes/font_size = 1
+text = "Increase City Tier"
+icon = ExtResource("3_jxi4p")
+icon_alignment = 1
+
+[node name="DecreaseTierButton" type="Button" parent="MainContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+icon = ExtResource("4_pux4c")
+icon_alignment = 1
+
+[node name="ExtractionLabel" type="Label" parent="MainContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="TradeRoutesLabel" type="Label" parent="VBoxContainer"]
+[node name="UpkeepLabel" type="Label" parent="MainContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="TradeButtonContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="RecipesLabel" type="Label" parent="MainContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CloseButton" type="Button" parent="VBoxContainer"]
+[node name="FacilitiesLabel" type="Label" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TradeRoutesLabel" type="Label" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TradeButtonContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="MainContainer/VBoxContainer"]
 layout_mode = 2
 text = "Close"

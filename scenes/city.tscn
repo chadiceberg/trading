@@ -16,6 +16,7 @@ font = ExtResource("3_rqxma")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_movw8"]
 
 [node name="City" type="Area2D" groups=["cities"]]
+top_level = true
 script = ExtResource("1_bih7l")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -42,6 +43,8 @@ text = "CITYNAME"
 label_settings = SubResource("LabelSettings_movw8")
 
 [node name="CityArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 
 [node name="CityCollision" type="CollisionShape2D" parent="CityArea"]
 shape = SubResource("CircleShape2D_movw8")

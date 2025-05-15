@@ -6,6 +6,18 @@ var city_instances: Array = [] # Array of City
 var city_panel: Node = null
 var city_panel_scene: PackedScene = preload("res://scenes/city_panel.tscn")
 
+@export var tile_scenes: Dictionary = {
+	"fertile": "res://scenes/tiles/fertile_tile.tscn",
+	"forest": "res://scenes/tiles/forest_tile.tscn",
+	"grain": "res://scenes/tiles/grain_tile.tscn",
+	"mine": "res://scenes/tiles/mine_tile.tscn",
+	"mountain": "res://scenes/tiles/mountain_tile.tscn",
+	"rural_building": "res://scenes/tiles/rural_building_tile.tscn",
+	"swamp": "res://scenes/tiles/swamp_tile.tscn",
+	"water": "res://scenes/tiles/water_tile.tscn",
+}
+
+
 func _ready() -> void:
 	if tile_map_layer == null:
 		push_error("tile_map_layer is null!")
@@ -67,3 +79,35 @@ func harvest_resource(tile: Tile, tile_pos: Vector2i) -> void:
 					tile_instances.erase(tile_pos)
 					tile.queue_free()
 					print("%s at %s depleted" % [tile.get_type(), tile_pos])
+
+func change_tile_type(tile_pos:Vector2i, new_type: String) -> bool:
+	if not tile_scenes.has(new_type):
+		print("new tile type error: ", new_type)
+		return false
+	var current_tile = tile_instances.get(tile_pos)
+	
+	
+	if not current_tile:
+		print("No tile found at: ", tile_pos)
+		return false
+	
+	var tile_state = current_tile.get_tile_state()
+	
+	current_tile.queue_free()
+	tile_instances.erase(tile_pos)
+	
+	var new_tile_scene = load(tile_scenes[new_type]) as PackedScene
+	if not new_tile_scene:
+		print("Failed to load tile scene for:", new_type)
+		return false
+	
+	var new_tile = new_tile_scene.instantiate() as Tile
+	if not new_tile:
+		print("Error to initalize tile for:", new_type)
+		return false
+	
+	new_tile.global_position = tile_state.global_position
+	tile_map_layer.add_child(new_tile)
+	tile_instances[tile_pos] = new_tile
+	print("Tile changed:", tile_pos, new_type)
+	return true

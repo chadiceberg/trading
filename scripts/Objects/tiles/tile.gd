@@ -20,7 +20,7 @@ signal tile_clicked(tile: Tile)
 	"water": 0
 	}
 @export var resources: Dictionary = {}
-
+var tile_production = {}
 # State
 var controlled_by: Node = null
 var overlapping_areas: Array[Area2D] = []
@@ -60,6 +60,7 @@ func _initialize_tile() -> void:
 		input_event.connect(_on_input_event)
 	name = "Tile_%s_%s" % [tile_type, global_position]
 	#print("Tile %s initialized at %s" % [tile_type, global_position])
+	tile_production = base_production
 
 func _check_overlaps() -> void:
 	overlapping_areas = get_overlapping_areas()
@@ -81,6 +82,14 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 func _handle_click() -> void:
 	print("Tile %s clicked at %s" % [tile_type, global_position])
 	emit_signal("tile_clicked", self)
+
+func get_tile_state() -> Dictionary:
+	return {
+		"tile_type": tile_type,
+		"global_position": global_position,
+		"extraction_value": extraction_value
+	}
+	
 
 func get_type() -> String:
 	return tile_type
