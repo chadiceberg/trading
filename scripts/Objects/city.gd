@@ -74,6 +74,8 @@ const BASE_STORAGE_MAX: int = 1500
 
 var extraction_initialized = false
 
+static var selected_city: City = null
+
 # Terrain costs for trade routes
 const TERRAIN_COSTS: Dictionary = {
 	"fertile": 1.5,
@@ -94,6 +96,22 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	pass
+	
+func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		print("City %s clicked at %s" % [name, global_position])
+		
+		# Unhighlight tiles of previously selected city
+		if selected_city and selected_city != self:
+			selected_city._unhighlight_tiles()
+		
+		# Set this city as selected and highlight its tiles
+		selected_city = self
+		_highlight_tiles()
+		
+		emit_signal("city_clicked", self)
+		_update_extraction_area()
+		_update_extraction_rates()
 
 func _initialize_city() -> void:
 	name = city_name
@@ -114,11 +132,13 @@ func _update_extraction_area() -> void:
 
 func _set_city_tier(new_tier: int) -> void:
 	city_tier = clampi(new_tier, 0, MAX_TIER)
+	_unhighlight_tiles()
 	_update_extraction_radius()
 	_update_city_radius()
 	_update_city_tiles()
 	_update_extraction_area()
 	_update_extraction_rates()
+	_highlight_tiles()
 	print("City Name: %s  City Tier: %d  City Radius: %.1f  Extraction Radius: %.1f" % [city_name, city_tier, city_radius, extraction_radius])
 	print("%s tier updated to %d" % [city_name, city_tier])
 
@@ -145,11 +165,7 @@ func _update_extraction_radius() -> void:
 		push_error("%s: Extraction collision node not initialized!" % city_name)
 		return
 	
-	# Calculate new extraction radius
-	if city_tier == 0:
-		extraction_radius = BASE_CONTROL_RADIUS
-	else:
-		extraction_radius = (BASE_CONTROL_RADIUS * city_tier) + BASE_CONTROL_RADIUS
+	extraction_radius = (BASE_CONTROL_RADIUS * city_tier) + BASE_CONTROL_RADIUS
 	
 	# Create new CircleShape2D with updated radius
 	var new_shape = CircleShape2D.new()
@@ -171,12 +187,7 @@ func _update_city_tiles() -> void:
 	
 	print("%s updated city_tiles: %d tiles" % [city_name, city_tiles.size()])
 
-func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		print("City %s clicked at %s" % [name, global_position])
-		emit_signal("city_clicked", self)
-		_update_extraction_area()
-		_update_extraction_rates()
+
 
 func _on_production_timer_timeout() -> void:
 	for resource in extraction_rates.keys():
@@ -375,3 +386,16 @@ func establish_trade_route(target_city: City, path: Array[Vector2i]) -> void:
 func clear_dictionary_values(dict: Dictionary) -> void:
 	for key in dict.keys():
 		dict[key] = 0
+
+func _highlight_tiles() -> void:
+	_update_extraction_area()
+	for tile in owned_tiles:
+		if tile is Tile:
+			tile.highlight()
+	print("%s highlighted %d tiles in extraction radius" % [city_name, owned_tiles.size()])
+
+func _unhighlight_tiles() -> void:
+	for tile in owned_tiles:
+			if tile is Tile:
+				tile.unhighlight()
+	print("%s unhighlighted %d tiles" % [city_name, owned_tiles.size()])

@@ -116,8 +116,8 @@ func _on_decrease_tier_pressed() -> void:
 		update_info(current_city)
 
 func _on_close_pressed() -> void:
-	if city_manager:
-		city_manager.trade_route_visualizer.clear_routes()
+	#if city_manager:
+		#city_manager.trade_route_visualizer.clear_routes()
 	hide()
 
 func _adjust_layout() -> void:

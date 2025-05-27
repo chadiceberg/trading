@@ -109,3 +109,11 @@ func set_controlled_by(controller: Node) -> void:
 
 func get_extraction_rates() -> Dictionary:
 	return base_production
+	
+func highlight() -> void:
+	if sprite:
+		sprite.modulate = Color(1,1,0,1)
+		
+func unhighlight() -> void:
+	if sprite:
+		sprite.modulate = Color(1,1,1,1)
