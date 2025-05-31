@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://biqp5y1mo2up5"]
+[gd_scene load_steps=8 format=3 uid="uid://biqp5y1mo2up5"]
 
 [ext_resource type="PackedScene" uid="uid://cqf0jb8hl2d5b" path="res://scenes/world_map_tiles.tscn" id="1_0biqy"]
 [ext_resource type="Script" uid="uid://bhqfxyhsmxgy5" path="res://scenes/game_world.gd" id="1_6c6v5"]
 [ext_resource type="Script" uid="uid://d0eqvvpm377dt" path="res://scripts/UI/world_camera.gd" id="2_47u71"]
 [ext_resource type="PackedScene" uid="uid://u0qs0lacjwv" path="res://footbar.tscn" id="2_bhwwd"]
-[ext_resource type="Script" uid="uid://do5k4u22fqne8" path="res://footbar.gd" id="3_pdbwf"]
 [ext_resource type="Script" uid="uid://ddqwps2i6hsff" path="res://scripts/UI/Managers/tile_manager.gd" id="4_0vfqx"]
 [ext_resource type="PackedScene" uid="uid://hsi3um5bitlf" path="res://scenes/city.tscn" id="5_6c6v5"]
 [ext_resource type="PackedScene" uid="uid://r21u56p0erv2" path="res://scenes/city_manager.tscn" id="5_wbbl4"]
@@ -17,12 +16,10 @@ default_city = NodePath("City")
 
 [node name="Footbar" parent="UILayer" instance=ExtResource("2_bhwwd")]
 z_index = 999
-anchors_preset = 12
 offset_left = -386.0
 offset_top = -265.0
 offset_right = 1534.0
 offset_bottom = -225.0
-script = ExtResource("3_pdbwf")
 
 [node name="world_map" parent="." instance=ExtResource("1_0biqy")]
 metadata/_edit_lock_ = true

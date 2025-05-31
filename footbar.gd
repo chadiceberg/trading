@@ -18,7 +18,7 @@ var selected_city: City = null
 func _ready() -> void:
 	# Anchor the Control node to the bottom of the viewport
 	set_anchors_and_offsets_preset(PRESET_BOTTOM_WIDE)
-	set_offset(SIDE_TOP, -40)  # 40 pixels high
+	set_offset(SIDE_TOP, -80)  # 40 pixels high
 	set_offset(SIDE_LEFT, 0)
 	set_offset(SIDE_RIGHT, 0)
 	set_offset(SIDE_BOTTOM, 0)
@@ -37,7 +37,7 @@ func set_selected_city(city: City) -> void:
 func update_ui() -> void:
 	if selected_city:
 		var info = selected_city.get_info()
-		city_info_label.text = "%s (Tier %d)\nGrain: %d\nIron: %d\nWood: %d" % [
+		city_info_label.text = "%s (Tier %d)" % [
 			info["name"], 
 			info["tier"]
 		]
