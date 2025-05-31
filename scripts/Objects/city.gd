@@ -95,6 +95,8 @@ func _ready() -> void:
 	_initialize_city()
 
 func _physics_process(_delta: float) -> void:
+	#_update_extraction_area()
+	#_update_extraction_rates()
 	pass
 	
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:

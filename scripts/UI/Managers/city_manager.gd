@@ -5,6 +5,10 @@ class_name CityManager
 var cities: Array[City] = []
 var trade_route_visualizer: TradeRouteVisualizer
 
+var selected_city: City = null
+
+signal city_clicked_via_manager(city: City)
+
 func _ready() -> void:
 	_find_cities()
 	_setup_visualizer()
@@ -86,3 +90,8 @@ func _on_city_clicked(city: City) -> void:
 	city._update_extraction_area()
 	calculate_all_trade_routes()
 	show_trade_routes(city)
+	
+	selected_city = city
+	print("New selected city")
+	emit_signal("city_clicked_via_manager", selected_city)
+	
