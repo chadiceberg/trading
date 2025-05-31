@@ -1,13 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://mgsw3k3httud"]
 
-[ext_resource type="PackedScene" uid="uid://o18ouehtmi7n" path="res://scenes/tile.tscn" id="1_ecpki"]
+[ext_resource type="PackedScene" uid="uid://o18ouehtmi7n" path="res://scenes/tiles/tile.tscn" id="1_ecpki"]
 [ext_resource type="Texture2D" uid="uid://byyo4d8v3baf7" path="res://resources/tiles/mine_tile.PNG" id="2_42njl"]
-[ext_resource type="Script" uid="uid://cwn87e8tdture" path="res://scenes/tiles/mine_tile.gd" id="2_krm6v"]
+[ext_resource type="Script" uid="uid://cwn87e8tdture" path="res://scripts/Objects/tiles/mine_tile.gd" id="2_krm6v"]
 
 [node name="MineTile" instance=ExtResource("1_ecpki")]
 script = ExtResource("2_krm6v")
-type = "mine"
 extraction_value = 10
+base_production = {
+"grain": 0,
+"iron": 1,
+"lumber": 0,
+"stone": 1,
+"water": 0,
+"wood": 0
+}
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_42njl")

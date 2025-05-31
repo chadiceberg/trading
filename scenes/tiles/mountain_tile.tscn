@@ -1,12 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://bger47myvrj7d"]
 
-[ext_resource type="PackedScene" uid="uid://o18ouehtmi7n" path="res://scenes/tile.tscn" id="1_1fkfh"]
+[ext_resource type="PackedScene" uid="uid://o18ouehtmi7n" path="res://scenes/tiles/tile.tscn" id="1_1fkfh"]
 [ext_resource type="Texture2D" uid="uid://bapx62aet6eo5" path="res://resources/tiles/mountain_tile.PNG" id="2_b8ps2"]
-[ext_resource type="Script" uid="uid://dn4jmbq77n0f7" path="res://scenes/tiles/mountain_tile.gd" id="2_k7rc2"]
+[ext_resource type="Script" uid="uid://dn4jmbq77n0f7" path="res://scripts/Objects/tiles/mountain_tile.gd" id="2_k7rc2"]
 
 [node name="MountainTile" instance=ExtResource("1_1fkfh")]
 script = ExtResource("2_k7rc2")
-type = "mountain"
+base_production = {
+"grain": 0,
+"iron": 0,
+"lumber": 0,
+"stone": 1,
+"water": 0,
+"wood": 0
+}
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_b8ps2")
