@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://hsi3um5bitlf"]
 
-[ext_resource type="Script" uid="uid://cma2eqv8k5vi7" path="res://scripts/Objects/city.gd" id="1_bih7l"]
+[ext_resource type="Script" uid="uid://bywitrbf2o07a" path="res://scripts/Objects/city.gd" id="1_bih7l"]
 [ext_resource type="Texture2D" uid="uid://vq45oipyg6p6" path="res://resources/Cityicon .png" id="2_58ubr"]
 [ext_resource type="Script" uid="uid://crddtwk1y8esu" path="res://scripts/UI/Managers/extraction_area.gd" id="3_movw8"]
 [ext_resource type="FontFile" uid="uid://cbejk781yhf8t" path="res://resources/fonts/PixelFontBundle2_v1_0/ThickPixels.ttf" id="3_rqxma"]
