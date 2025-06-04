@@ -3,6 +3,8 @@ extends Control
 # Signals
 signal build_facility_requested(city: City, facility_name: String)
 signal trade_route_requested(city: City, target_city: City)
+signal find_tile_requested()
+signal new_tile_type(type: String)
 
 # Node references
 @onready var city_info_label: Label = $PanelContainer/HBoxContainer/CityInfoLabel
@@ -11,6 +13,8 @@ signal trade_route_requested(city: City, target_city: City)
 @onready var grain_label: Label = $PanelContainer/HBoxContainer/GrainLabel
 @onready var stone_label: Label = $PanelContainer/HBoxContainer/StoneLabel
 @onready var wood_label: Label = $PanelContainer/HBoxContainer/WoodLabel
+@onready var tile_selection_menu = $PanelContainer/HBoxContainer/OptionButton
+
 
 # State
 var selected_city: City = null
@@ -65,3 +69,26 @@ func _on_trade_button_pressed() -> void:
 func _on_city_manager_city_clicked_via_manager(city: City) -> void:
 	selected_city = city
 	update_ui()
+
+
+func _on_tile_button_pressed() -> void:
+	emit_signal("find_tile_requested")
+	tile_selection_menu.visible = true
+	$PanelContainer/HBoxContainer/ConfirmButton.visible = true
+
+
+func _on_confirm_button_pressed() -> void:
+	var action_id = tile_selection_menu.get_selected_id()
+	
+	match action_id:
+		0:
+			emit_signal("new_tile_type", "default")
+		1:
+			emit_signal("new_tile_type", "grain")
+		2:
+			emit_signal("new_tile_type", "forest")
+		3:
+			emit_signal("new_tile_type", "fertile")
+		4:
+			emit_signal("new_tile_type", "water")
+		

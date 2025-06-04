@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxb7nmk7m4iv3"]
+
+[ext_resource type="Script" uid="uid://b4vvj2364g87d" path="res://tile_selection_menu.gd" id="1_i7y3g"]
+
+[node name="TileSelectionMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i7y3g")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DefaultButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Default"
+
+[node name="GrainButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Grain"
+
+[node name="ForestButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Forest"
+
+[node name="FertileButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Fertile"
+
+[node name="SwampButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Swamp"
+
+[node name="WaterButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Water"
+
+[node name="MountainButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Mountain"
+
+[node name="MineButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Mine"
+
+[node name="RuralButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Rural"
+
+[connection signal="pressed" from="VBoxContainer/DefaultButton" to="." method="_on_default_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/GrainButton" to="." method="_on_grain_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ForestButton" to="." method="_on_forest_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/FertileButton" to="." method="_on_fertile_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/SwampButton" to="." method="_on_swamp_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/WaterButton" to="." method="_on_water_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MountainButton" to="." method="_on_mountain_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MineButton" to="." method="_on_mine_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/RuralButton" to="." method="_on_rural_button_pressed"]

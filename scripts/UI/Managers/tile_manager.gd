@@ -1,10 +1,17 @@
 extends Node
 
+class_name TileManager
+
 @onready var tile_map_layer: TileMapLayer = $"../world_map"
+@onready var city_manager = $"../CityManager"
+
 var tile_instances: Dictionary = {} # Vector2i -> Tile
 var city_instances: Array = [] # Array of City
 var city_panel: Node = null
 var city_panel_scene: PackedScene = preload("res://scenes/city_panel.tscn")
+
+signal tile_clicked_via_manager(tile: Tile)
+signal tile_type_received(string: String)
 
 @export var tile_scenes: Dictionary = {
 	"fertile": "res://scenes/tiles/fertile_tile.tscn",
@@ -56,6 +63,7 @@ func initialize_cities() -> void:
 
 func _on_tile_clicked(tile: Tile, tile_pos: Vector2i) -> void:
 	print("Tile clicks disabled for testing")
+	emit_signal("tile_clicked_via_manager", tile)
 	#print("Tile clicked: %s at %s, resources: %s" % [
 		#tile.get_type(), tile_pos, tile.resources
 	#])
@@ -111,3 +119,15 @@ func change_tile_type(tile_pos:Vector2i, new_type: String) -> bool:
 	tile_instances[tile_pos] = new_tile
 	print("Tile changed:", tile_pos, new_type)
 	return true
+
+
+func wait_for_tile_click() -> Tile:
+	while true:
+		for tile_pos in tile_instances.keys():
+			var tile = tile_instances[tile_pos]
+			if tile.is_queued_for_deletion():
+				continue
+			var result = await tile.tile_clicked
+			if result:
+				return result
+	return

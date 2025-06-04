@@ -6,8 +6,15 @@ var cities: Array[City] = []
 var trade_route_visualizer: TradeRouteVisualizer
 
 var selected_city: City = null
+var selected_tile: Tile = null
+var new_tile_type: String
 
 signal city_clicked_via_manager(city: City)
+signal tile_found()
+
+var looking_for_tile: bool = false
+
+@onready var tile_manager = $"../TileManager"
 
 func _ready() -> void:
 	_find_cities()
@@ -95,3 +102,30 @@ func _on_city_clicked(city: City) -> void:
 	print("New selected city")
 	emit_signal("city_clicked_via_manager", selected_city)
 	
+#
+func develop_tile(in_tile: Tile):
+	pass
+	
+	
+func find_tile() -> void:
+	looking_for_tile = true
+	await tile_found
+	looking_for_tile = false
+
+
+func _on_footbar_find_tile_requested() -> void:
+	print("looking for tile")
+	await find_tile() and new_tile_type
+	tile_manager.change_tile_type(selected_tile.global_position, new_tile_type)
+
+
+func _on_tile_manager_tile_clicked_via_manager(tile: Tile) -> void:
+	if looking_for_tile == false:
+		pass
+	else:
+		selected_tile = tile
+		emit_signal("tile_found")
+
+
+func _on_footbar_new_tile_type(type: String) -> void:
+	new_tile_type = type
