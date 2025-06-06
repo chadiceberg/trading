@@ -1,5 +1,3 @@
 extends Tile
 
-func _ready() -> void:
-	super._ready()
-	_set_tile_type("fertile")
+@export var tile_type: String = "fertile"
