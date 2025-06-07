@@ -29,23 +29,13 @@ var overlapping_areas: Array[Area2D] = []
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
-# Terrain costs for trade routes (synced with City.gd)
-const TERRAIN_COSTS: Dictionary = {
-	"fertile": 1.5,
-	"grain": 1.5,
-	"forest": 3.0,
-	"rural_building": 1.0,
-	"road": 1.0,
-	"mine": 2.0,
-	"mountain": 4.0,
-	"swamp": 2.5,
-	"water": 999.0,
-	"unknown": 2.0
-}
+# Terrain costs for trade routes (shared with City.gd)
+const TerrainCosts = preload("res://scripts/Data/terrain_costs.gd")
 
 func _ready() -> void:
-	_initialize_tile()
-	_check_overlaps()
+        _set_tile_type(tile_type)
+        _initialize_tile()
+        _check_overlaps()
 
 func _initialize_tile() -> void:
 	add_to_group("tiles")
@@ -69,10 +59,10 @@ func _check_overlaps() -> void:
 
 func _set_tile_type(new_type: String) -> void:
 	tile_type = new_type
-	if tile_type in TERRAIN_COSTS:
-		movement_cost = TERRAIN_COSTS[tile_type]
+       if tile_type in TerrainCosts.TERRAIN_COSTS:
+               movement_cost = TerrainCosts.TERRAIN_COSTS[tile_type]
 	else:
-		movement_cost = TERRAIN_COSTS["unknown"]
+               movement_cost = TerrainCosts.TERRAIN_COSTS["unknown"]
 		push_warning("Tile type %s not in TERRAIN_COSTS, using default cost" % tile_type)
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:

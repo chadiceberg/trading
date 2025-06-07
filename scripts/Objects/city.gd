@@ -77,18 +77,7 @@ var extraction_initialized = false
 static var selected_city: City = null
 
 # Terrain costs for trade routes
-const TERRAIN_COSTS: Dictionary = {
-	"fertile": 1.5,
-	"grain": 1.5,
-	"forest": 3.0,
-	"rural_building": 1.0,
-	"road": 1.0,
-	"mine": 2.0,
-	"mountain": 4.0,
-	"swamp": 2.5,
-	"water": 999.0,  # Effectively impassable
-	"unknown": 0
-}
+const TerrainCosts = preload("res://scripts/Data/terrain_costs.gd")
 
 func _ready() -> void:
 	await get_tree().process_frame
@@ -365,7 +354,7 @@ func _get_terrain_cost(pos: Vector2i) -> float:
 	for tile in get_tree().get_nodes_in_group("tiles"):
 		if tile.global_position.distance_to(world_pos) < tile_size / 2:
 			return tile.get_terrain_cost()
-	return TERRAIN_COSTS["unknown"]
+       return TerrainCosts.TERRAIN_COSTS["unknown"]
 
 func _calculate_path_cost(path: Array[Vector2i]) -> float:
 	var cost = 0.0
