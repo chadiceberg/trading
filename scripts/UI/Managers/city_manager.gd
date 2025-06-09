@@ -114,9 +114,10 @@ func find_tile() -> void:
 
 
 func _on_footbar_find_tile_requested() -> void:
-	print("looking for tile")
-	await find_tile() and new_tile_type
-	tile_manager.change_tile_type(selected_tile.global_position, new_tile_type)
+        print("looking for tile")
+        await find_tile()
+        var map_pos: Vector2i = tile_manager.tile_map_layer.local_to_map(selected_tile.global_position)
+        tile_manager.change_tile_type(map_pos, new_tile_type)
 
 
 func _on_tile_manager_tile_clicked_via_manager(tile: Tile) -> void:

@@ -109,16 +109,17 @@ func change_tile_type(tile_pos:Vector2i, new_type: String) -> bool:
 		print("Failed to load tile scene for:", new_type)
 		return false
 	
-	var new_tile = new_tile_scene.instantiate() as Tile
-	if not new_tile:
-		print("Error to initalize tile for:", new_type)
-		return false
-	
-	new_tile.global_position = tile_state.global_position
-	tile_map_layer.add_child(new_tile)
-	tile_instances[tile_pos] = new_tile
-	print("Tile changed:", tile_pos, new_type)
-	return true
+        var new_tile = new_tile_scene.instantiate() as Tile
+        if not new_tile:
+                print("Error to initalize tile for:", new_type)
+                return false
+
+        new_tile.global_position = tile_state.global_position
+        tile_map_layer.add_child(new_tile)
+        new_tile.tile_clicked.connect(_on_tile_clicked.bind(tile_pos))
+        tile_instances[tile_pos] = new_tile
+        print("Tile changed:", tile_pos, new_type)
+        return true
 
 
 func wait_for_tile_click() -> Tile:
