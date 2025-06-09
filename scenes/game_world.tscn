@@ -5824,6 +5824,5 @@ init_city_tier = 1
 [connection signal="input_event" from="world_map/@Area2D@146964" to="world_map/@Area2D@146964" method="_on_input_event"]
 [connection signal="tile_clicked" from="world_map/@Area2D@146964" to="world_map/@Area2D@146964" method="_on_tile_clicked"]
 [connection signal="tile_clicked_via_manager" from="TileManager" to="CityManager" method="_on_tile_manager_tile_clicked_via_manager"]
-[connection signal="tile_type_received" from="TileManager" to="TileManager" method="_on_tile_type_received"]
 [connection signal="city_clicked_via_manager" from="CityManager" to="UILayer/Footbar" method="_on_city_manager_city_clicked_via_manager"]
 [connection signal="city_clicked" from="City" to="." method="_on_city_city_clicked"]
