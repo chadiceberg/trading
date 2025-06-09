@@ -1,9 +1,9 @@
 extends Control
 
-@onready var tile_manager = $TileManager
+@onready var tile_manager = get_tree().get_root().get_node("GameWorld/TileManager")
 
 func _on_default_button_pressed() -> void:
-	emit_signal("tile_type_received", "default")
+        tile_manager.emit_signal("tile_type_received", "default")
 
 func _on_grain_button_pressed() -> void:
 	tile_manager.emit_signal("tile_type_received", "grain")
